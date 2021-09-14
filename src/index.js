@@ -4,20 +4,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
 import Entry from './entry.js';
 
-function displayEntry(entry) {
+function displayEntry(entry, number) {
   const output = $("div#output");
-  const entryArray = entry.entryWords.split(" ");
-  let entryOutput = entry.entryTitle + " ";
-  if (entryArray.length > 8) {
-    for (let i = 0;i !== 7;i++) {
-      entryOutput = entryOutput.concat(" ", entryArray[i]);
-    } 
-  } else {
-    for (let i = 0;i < entryArray.length;i++) {
-      entryOutput = entryOutput.concat(" ", entryArray[i]);
-    }
-  }
-  output.append(entryOutput + "\n");
+  let entryOutput = entry.getTeaser();
+  output.append(entryOutput + " Vowels: " + number[0] + " Consonants: " + number[1] + " Other: " + number[2] + "<br>");
 }
 
 $(document).ready(function() {
@@ -26,6 +16,7 @@ $(document).ready(function() {
     const inputtedTitle = $("input#title").val();
     const inputtedWords = $("input#words").val();
     let newEntry = new Entry(inputtedTitle,inputtedWords);
-    displayEntry(newEntry);
+    const number = newEntry.detectLetters();
+    displayEntry(newEntry, number);
   });
 });
